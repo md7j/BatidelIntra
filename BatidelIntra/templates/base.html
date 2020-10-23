@@ -1,0 +1,124 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'base.css' %}">
+    <title>{% block title %}Batidel INTRA{% endblock %}</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    {% block includes %}{% endblock %}
+
+
+</head>
+
+<body class="green lighten-5">
+    <div class="row green z-depth-2">
+        <div class="col s10 offset-s1">
+            <nav class="nav-extended green z-depth-0">
+                <div class="nav-wrapper">
+                    <a href="#" class="brand-logo">Batidel</a>
+                    <ul id="nav-mobile" class="right hide-on-med-and-down">
+                        <li><a href="#">Bouton</a></li>
+                        <li><a href="#">Bouton</a></li>
+                        <li><a href="#">Bouton</a></li>
+                    </ul>
+                </div>
+                <div class="divider"></div>
+                <div class="nav-content">
+                    <ul class="tabs tabs-transparent">
+                        <li class="tab"><a href="#">Bouton</a></li>
+                        <li class="tab"><a href="#">Bouton</a></li>
+                        <li class="tab"><a href="#">Bouton</a></li>
+                        <li class="tab"><a href="#">Bouton</a></li>
+                    </ul>
+                </div>
+        </div>
+    </div>
+    </nav>
+    <!--    <nav class="top-nav green z-depth-0">
+        <div class="container">
+            <div class="nav-wrapper green z-depth-2">
+                <a href="#" class="brand-logo">Batidel</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="#">Bouton</a></li>
+                    <li><a href="#">Bouton</a></li>
+                    <li><a href="#">Bouton</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+-->
+    <main>
+        <div class="row">
+            <div class="col s10 offset-s1 white z-depth-2" id="content">
+                <div>
+                    {% block content %}{% endblock %}
+                </div>
+            </div>
+        </div>
+    </main>
+    <!--<header>
+
+    <nav class="top-nav red lighten-2">
+        <div class="container">
+            <div class="nav-wrapper green lighten-2">
+                <div class="row">
+                    <div class="col s12">
+                        {% block sidebar %}
+                            <a href="#" class="brand-logo">Acccueil</a>
+                            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                                <li><a href="#">BTN</a></li>
+                                <li><a href="#">BTN</a></li>
+                                <li><a href="#">BTN</a></li>
+                            </ul>
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav> 
+</header>
+
+<div id="sidenav">
+    <ul id="slide-out" class="sidenav sidenav-fixed amber lighten-2">
+        <li>
+            <ul class="collapsible collapsible-accordion">
+                <li>
+                    <a class="collapsible-header waves-effect waves-teal">Dropdown<i class="material-icons">arrow_drop_down</i></a>
+                    <div class="collapsible-body">
+                        <ul>
+                            <li><a href="#!"></a></li>
+                            <li><a href="#!"></a></li>
+                            <li><a href="#!"></a></li>
+                            <li><a href="#!"></a></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </li>
+        <li><a href="#!">First Sidebar Link</a></li>
+        <li><a href="#!">Second Sidebar Link</a></li>
+    </ul>
+</div>
+<main>
+    <div class="row">
+        <div class="col s8 offset-s2" id="content">
+            <div id="breadcrumb">
+            </div>
+            <div>
+            </div>
+        </div>
+    </div>
+</main>
+-->
+</body>
+</html>
