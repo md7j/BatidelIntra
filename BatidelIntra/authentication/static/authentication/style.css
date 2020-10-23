@@ -1,0 +1,13 @@
+html {
+    background-color: #009835;
+}
+
+#loginFrame {
+    text-align: center;
+    padding: 2%;
+    border: 5px solid;
+    border-radius: 10px;
+    border-color: white;
+    margin-top: 10%;
+    background-color: lightgrey;
+}
