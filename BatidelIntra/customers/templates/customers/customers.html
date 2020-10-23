@@ -5,19 +5,43 @@
 
 {% block includes %}
 
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/dataTables.material.min.css">
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/material-components-web/4.0.0/material-components-web.min.css">
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/dataTables.material.min.css">
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/material-components-web/4.0.0/material-components-web.min.css">
+    <script type="text/javascript" charset="utf8"
+            src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" charset="utf8"
+            src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
 
 {% endblock %}
 
 {% block content %}
 
-<h2 style="text-align: center">Clients</h2>
-<div class="container">
-    <table id="table_id" class="mdl-data-table" style="text-align: left">
-        <thead>
+    <h4>Clients</h4>
+
+    <div class="divider"></div>
+    <div class="row">
+        <div class="col s12">
+            <div class="row">
+                <div class="col s3">
+                    <h6>Consulter</h6>
+                </div>
+                <div class="col s3">
+                    <div class="input-field">
+                        <input id="search" type="search" required>
+                        <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                        <i class="material-icons">close</i>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+            </div>
+        </div>
+    </div>
+    <h6>Consulter</h6>
+    <div class="container">
+        <table id="table_id" class="mdl-data-table">
+            <thead>
             <tr>
                 <th>Id</th>
                 <th>Prénom</th>
@@ -27,48 +51,53 @@
                 <th>Telephone</th>
                 <th>Portable</th>
             </tr>
-        </thead>
+            </thead>
+        </table>
+    </div>
+    <script>
+        const language = {
+            processing: "Traitement en cours...",
+            search: "Rechercher&nbsp;:",
+            lengthMenu: "Afficher _MENU_ &eacute;l&eacute;ments",
+            info: "Affichage de l'&eacute;lement _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+            infoEmpty: "Affichage de l'&eacute;lement 0 &agrave; 0 sur 0 &eacute;l&eacute;ments",
+            infoFiltered: "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+            infoPostFix: "",
+            loadingRecords: "Chargement en cours...",
+            zeroRecords: "Aucun &eacute;l&eacute;ment &agrave; afficher",
+            emptyTable: "Aucune donnée disponible dans le tableau",
+            paginate: {
+                first: "Premier",
+                previous: "Pr&eacute;c&eacute;dent",
+                next: "Suivant",
+                last: "Dernier"
+            },
+            aria: {
+                sortAscending: ": activer pour trier la colonne par ordre croissant",
+                sortDescending: ": activer pour trier la colonne par ordre décroissant"
+            }
+        };
+        $(document).ready(function () {
+            $('#table_id').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: "{% url 'customers:customersJson' %}",
+                columnDefs: [
+                    {className: 'mdc-data-table__cell', targets: ['_all']},
+                    {orderable: false, targets: ['_all']},
+                    {visible: false, targets: 0}
+                ],
+                pageLength: 3,
+                lengthChange: false,
+                language: language,
+            });
+        });
+    </script>
+    <div class="divider"></div>
+
+    <h6>Ajouter Client:</h6>
+
     </table>
-</div>
-<script>
-    const language = {
-        processing: "Traitement en cours...",
-        search: "Rechercher&nbsp;:",
-        lengthMenu: "Afficher _MENU_ &eacute;l&eacute;ments",
-        info: "Affichage de l'&eacute;lement _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
-        infoEmpty: "Affichage de l'&eacute;lement 0 &agrave; 0 sur 0 &eacute;l&eacute;ments",
-        infoFiltered: "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
-        infoPostFix: "",
-        loadingRecords: "Chargement en cours...",
-        zeroRecords: "Aucun &eacute;l&eacute;ment &agrave; afficher",
-        emptyTable: "Aucune donnée disponible dans le tableau",
-        paginate: {
-            first: "Premier",
-            previous: "Pr&eacute;c&eacute;dent",
-            next: "Suivant",
-            last: "Dernier"
-        },
-        aria: {
-            sortAscending: ": activer pour trier la colonne par ordre croissant",
-            sortDescending: ": activer pour trier la colonne par ordre décroissant"
-        }
-    };
 
 
-    $(document).ready( function () {
-    $('#table_id').DataTable({
-        processing: true,
-        serverSide: true,
-        ajax: "{% url 'customers:customersJson' %}",
-        columnDefs: [
-            {className: 'mdc-data-table__cell', targets: ['_all']},
-            {orderable: false, targets: ['_all']},
-            {visible: false, targets: 0}
-        ],
-        pageLength: 3,
-        lengthChange: false,
-        language: language,
-    });
-    });
-</script>
 {% endblock %}
