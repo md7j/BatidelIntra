@@ -1,38 +1,31 @@
 from django.shortcuts import render
-from customers.models import Customer
+from .models import Customer
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 
+from rest_framework import viewsets
+from rest_framework import permissions
+from rest_framework.response import Response
+
+from rest_framework_datatables_editor.filters import DatatablesFilterBackend
+from rest_framework_datatables_editor.pagination import (
+    DatatablesPageNumberPagination)
+from rest_framework_datatables_editor.renderers import (DatatablesRenderer)
+from rest_framework_datatables_editor.viewsets import (
+    DatatablesEditorModelViewSet)
+
+from .serializers import CustomerSerializer
+
 
 @login_required
-def customers(request):
-    fields = Customer._meta.get_fields()[1:]
-    return render(request, 'customers/customers.html', {'fields':fields})
+def index(request):
+    return render(request, 'customers/customers.html')
 
-@login_required
-def customersJson(request):
-    draw = int(request.GET['draw'])
-    start = int(request.GET['start'])
-    length = int(request.GET['length'])
-    order_column = int(request.GET['order[0][column]'])
-    order_direction = '' if request.GET['order[0][dir]'] == 'desc' else '-'
-    column = [i.name for n, i in enumerate(Customer._meta.get_fields()) if n == order_column][0]
-    global_search = request.GET['search[value]']
-    all_objects = Customer.objects.all()
 
-    columns = [i.name for i in Customer._meta.get_fields()][1:]
-    objects = []
-    for i in all_objects.order_by(order_direction + column)[start:start + length].values():
-        ret = [i[j] for j in columns]
-        objects.append(ret)
-    filtered_count = all_objects.count()
-    total_count = Customer.objects.count()
-    return JsonResponse({
-        "sEcho": draw,
-        "iTotalRecords": total_count,
-        "iTotalDisplayRecords": filtered_count,
-        "aaData": objects,
-    })
+# @login_required
+# def customers(request):
+#    fields = Customer._meta.get_fields()[1:]
+#    return render(request, 'customers/customers.html', {'fields': fields})
 
 # @login_required
 # def create(request):
@@ -86,3 +79,13 @@ def customersJson(request):
 #         employee = Employee.objects.get(id=id)
 #         employee.delete()
 #         return redirect("/show")
+
+
+class CustomerViewSet(DatatablesEditorModelViewSet):
+    queryset = Customer.objects.all()
+    serializer_class = CustomerSerializer
+#    permission_classes = [permissions.IsAuthenticated]
+
+#    filter_backends = (DatatablesFilterBackend,)
+#    pagination_class = DatatablesPageNumberPagination
+#    renderer_classes = (DatatablesRenderer,)

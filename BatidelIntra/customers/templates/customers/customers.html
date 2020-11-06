@@ -5,99 +5,151 @@
 
 {% block includes %}
 
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/dataTables.material.min.css">
+
     <link rel="stylesheet" type="text/css"
-          href="https://cdnjs.cloudflare.com/ajax/libs/material-components-web/4.0.0/material-components-web.min.css">
-    <script type="text/javascript" charset="utf8"
-            src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" charset="utf8"
-            src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+          href="https://cdn.datatables.net/v/bs4-4.1.1/jq-3.3.1/moment-2.18.1/dt-1.10.22/b-1.6.5/sl-1.3.1/datatables.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/editor.bootstrap4.css' %}">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script type="text/javascript" charset="utf-8"
+            src="https://cdn.datatables.net/v/bs4-4.1.1/jq-3.3.1/moment-2.18.1/dt-1.10.22/b-1.6.5/sl-1.3.1/datatables.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="{% static 'js/dataTables.editor.js' %}"></script>
+    <script type="text/javascript" charset="utf-8" src="{% static 'js/editor.bootstrap4.min.js' %}"></script>
+    <!--		<script type="text/javascript" charset="utf-8" src="js/table.DATABASENAME.js"></script>  -->
+
+
+    <!--
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.bootstrap4.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/select/1.3.0/css/select.bootstrap4.min.css">
+<link rel="stylesheet" href="{% static 'css/editor.bootstrap4.css' %}">
+-->
+
 
 {% endblock %}
 
 {% block content %}
+    <div class="container-flex">
+        <div class="row justify-content-md-center">
+            <span class="col col-lg-11" style="background-color: #afafaf"/>
+            <h1>Clients</h1>
+            <hr/>
+            <table id="table_id" class="table table-sm table-striped table-bordered display">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Prénom</th>
+                    <th>Nom</th>
+                    <th>Adresse</th>
+                    <th>Ville</th>
+                    <th>Telephone</th>
+                    <th>Portable</th>
+                </tr>
+                </thead>
+            </table>
+            <!--
+            <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+            <script type="text/javascript" src=" https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js "></script>
+            <script type="text/javascript" src=" https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js "></script>
 
-    <h4>Clients</h4>
 
-    <div class="divider"></div>
-    <div class="row">
-        <div class="col s12">
-            <div class="row">
-                <div class="col s3">
-                    <h6>Consulter</h6>
-                </div>
-                <div class="col s3">
-                    <div class="input-field">
-                        <input id="search" type="search" required>
-                        <label class="label-icon" for="search"><i class="material-icons">search</i></label>
-                        <i class="material-icons">close</i>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-            </div>
+
+            <script src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+            <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.bootstrap4.min.js"></script>
+            <script src="https://cdn.datatables.net/select/1.3.0/js/dataTables.select.min.js"></script>
+            <script src="{% static 'js/dataTables.editor.js' %}"></script>
+            <script src="{% static 'js/editor.bootstrap4.min.js' %}"></script>
+        -->
+
+            <script>
+                const language = {
+                    processing: "Traitement en cours...",
+                    search: "Rechercher&nbsp;:",
+                    lengthMenu: "Afficher _MENU_ &eacute;l&eacute;ments",
+                    info: "Affichage de l'&eacute;lement _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+                    infoEmpty: "Affichage de l'&eacute;lement 0 &agrave; 0 sur 0 &eacute;l&eacute;ments",
+                    infoFiltered: "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+                    infoPostFix: "",
+                    loadingRecords: "Chargement en cours...",
+                    zeroRecords: "Aucun &eacute;l&eacute;ment &agrave; afficher",
+                    emptyTable: "Aucune donnée disponible dans le tableau",
+                    paginate: {
+                        first: "Premier",
+                        previous: "Pr&eacute;c&eacute;dent",
+                        next: "Suivant",
+                        last: "Dernier"
+                    },
+                    aria: {
+                        sortAscending: ": activer pour trier la colonne par ordre croissant",
+                        sortDescending: ": activer pour trier la colonne par ordre décroissant"
+                    }
+                };
+                (function ($) {
+
+                    $(document).ready(function () {
+                        var editor = new $.fn.dataTable.Editor({
+                            ajax: "/customers/api/customers/?format=datatables",//"/customers/api/customers/editor/?format=datatables",
+                            table: '#table_id',
+                            fields: [{
+                                label: "Id",
+                                name: "id",
+                            }, {
+                                label: "Prénom",
+                                name: "firstName",
+//                                type: "select"
+                            }, {
+                                label: "Nom",
+                                name: "lastName",
+                            }, {
+                                label: "Adresse",
+                                name: "address",
+                            }, {
+                                label: "Ville",
+                                name: "city",
+                            }, {
+                                label: "Telephone",
+                                name: "phone",
+                            }, {
+                                label: "Portable",
+                                name: "port",
+                            }]
+                        });
+
+                        var table = $('#table_id').DataTable({
+                            serverSide: true,
+                            ajax: "/customers/api/customers/?format=datatables",
+                            select: true,
+                            lengthChange: false,
+                            pageLength: 3,
+                            language: language,
+                            columns: [
+                                {data: "id", searchable: false},
+                                {data: "firstName"},//, name: "artist.name"},
+                                {data: "lastName", searchable: false},
+                                {data: "address", searchable: false},
+                                {data: "city", searchable: false},
+                                {data: "phone", searchable: false},
+                                {data: "port", searchable: false},
+                            ],
+                        });
+
+                        new $.fn.dataTable.Buttons(table, [
+                            {extend: "create", editor: editor},
+                            {extend: "edit", editor: editor},
+                            {extend: "remove", editor: editor}
+                        ]);
+
+                        table.buttons().container()
+                            .appendTo($('.col-md-6:eq(0)', table.table().container()));
+                    });
+
+                }(jQuery));
+
+
+            </script>
+
         </div>
     </div>
-    <h6>Consulter</h6>
-    <div class="container">
-        <table id="table_id" class="mdl-data-table">
-            <thead>
-            <tr>
-                <th>Id</th>
-                <th>Prénom</th>
-                <th>Nom</th>
-                <th>Adresse</th>
-                <th>Ville</th>
-                <th>Telephone</th>
-                <th>Portable</th>
-            </tr>
-            </thead>
-        </table>
-    </div>
-    <script>
-        const language = {
-            processing: "Traitement en cours...",
-            search: "Rechercher&nbsp;:",
-            lengthMenu: "Afficher _MENU_ &eacute;l&eacute;ments",
-            info: "Affichage de l'&eacute;lement _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
-            infoEmpty: "Affichage de l'&eacute;lement 0 &agrave; 0 sur 0 &eacute;l&eacute;ments",
-            infoFiltered: "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
-            infoPostFix: "",
-            loadingRecords: "Chargement en cours...",
-            zeroRecords: "Aucun &eacute;l&eacute;ment &agrave; afficher",
-            emptyTable: "Aucune donnée disponible dans le tableau",
-            paginate: {
-                first: "Premier",
-                previous: "Pr&eacute;c&eacute;dent",
-                next: "Suivant",
-                last: "Dernier"
-            },
-            aria: {
-                sortAscending: ": activer pour trier la colonne par ordre croissant",
-                sortDescending: ": activer pour trier la colonne par ordre décroissant"
-            }
-        };
-        $(document).ready(function () {
-            $('#table_id').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: "{% url 'customers:customersJson' %}",
-                columnDefs: [
-                    {className: 'mdc-data-table__cell', targets: ['_all']},
-                    {orderable: false, targets: ['_all']},
-                    {visible: false, targets: 0}
-                ],
-                pageLength: 3,
-                lengthChange: false,
-                language: language,
-            });
-        });
-    </script>
-    <div class="divider"></div>
-
-    <h6>Ajouter Client:</h6>
-
-    </table>
 
 
 {% endblock %}

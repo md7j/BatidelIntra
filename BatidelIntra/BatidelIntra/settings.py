@@ -31,7 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'django_datatables_view',
+    'rest_framework',
+    'rest_framework_datatables_editor',
     'customers.apps.CustomersConfig',
     'planning.apps.PlanningConfig',
     'authentication.apps.AuthenticationConfig',
@@ -128,3 +129,19 @@ STATICFILES_DIRS = [
 STATIC_URL = '/static/'
 
 LOGIN_URL = '/authentication/'
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+        'rest_framework_datatables_editor.renderers.DatatablesRenderer',
+    ),
+    'DEFAULT_FILTER_BACKENDS': (
+        'rest_framework_datatables_editor.filters.DatatablesFilterBackend',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework_datatables_editor.pagination.DatatablesPageNumberPagination',
+    'PAGE_SIZE': 50,
+}

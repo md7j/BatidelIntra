@@ -1,124 +1,70 @@
 {% load static %}
-
-<!DOCTYPE html>
 <html lang="fr">
-
 <head>
-    <link rel="stylesheet" type="text/css" href="{% static 'base.css' %}">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}Batidel INTRA{% endblock %}</title>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-    <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
-    <!-- Compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'base.css' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     {% block includes %}{% endblock %}
-
-
 </head>
 
-<body class="green lighten-5">
-    <div class="row green z-depth-2">
-        <div class="col s10 offset-s1">
-            <nav class="nav-extended green z-depth-0">
-                <div class="nav-wrapper">
-                    <a href="#" class="brand-logo">Batidel</a>
-                    <ul id="nav-mobile" class="right hide-on-med-and-down">
-                        <li><a href="#">Bouton</a></li>
-                        <li><a href="#">Bouton</a></li>
-                        <li><a href="#">Bouton</a></li>
-                    </ul>
-                </div>
-                <div class="divider"></div>
-                <div class="nav-content">
-                    <ul class="tabs tabs-transparent">
-                        <li class="tab"><a href="#">Bouton</a></li>
-                        <li class="tab"><a href="#">Bouton</a></li>
-                        <li class="tab"><a href="#">Bouton</a></li>
-                        <li class="tab"><a href="#">Bouton</a></li>
-                    </ul>
-                </div>
-        </div>
-    </div>
-    </nav>
-    <!--    <nav class="top-nav green z-depth-0">
-        <div class="container">
-            <div class="nav-wrapper green z-depth-2">
-                <a href="#" class="brand-logo">Batidel</a>
-                <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><a href="#">Bouton</a></li>
-                    <li><a href="#">Bouton</a></li>
-                    <li><a href="#">Bouton</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
--->
-    <main>
-        <div class="row">
-            <div class="col s10 offset-s1 white z-depth-2" id="content">
-                <div style="text-align: center">
-                    {% block content %}{% endblock %}
-                </div>
-            </div>
-        </div>
-    </main>
-    <!--<header>
-
-    <nav class="top-nav red lighten-2">
-        <div class="container">
-            <div class="nav-wrapper green lighten-2">
-                <div class="row">
-                    <div class="col s12">
-                        {% block sidebar %}
-                            <a href="#" class="brand-logo">Acccueil</a>
-                            <ul id="nav-mobile" class="right hide-on-med-and-down">
-                                <li><a href="#">BTN</a></li>
-                                <li><a href="#">BTN</a></li>
-                                <li><a href="#">BTN</a></li>
-                            </ul>
-                        {% endblock %}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </nav> 
-</header>
-
-<div id="sidenav">
-    <ul id="slide-out" class="sidenav sidenav-fixed amber lighten-2">
-        <li>
-            <ul class="collapsible collapsible-accordion">
-                <li>
-                    <a class="collapsible-header waves-effect waves-teal">Dropdown<i class="material-icons">arrow_drop_down</i></a>
-                    <div class="collapsible-body">
-                        <ul>
-                            <li><a href="#!"></a></li>
-                            <li><a href="#!"></a></li>
-                            <li><a href="#!"></a></li>
-                            <li><a href="#!"></a></li>
-                        </ul>
-                    </div>
-                </li>
-            </ul>
+<body style="background-color: #5E5C59">
+<header class="navbar navbar-expand-lg navbar-dark theme-primary border-bottom border-dark">
+    <a class="navbar-brand" href="#">Batidel</a>
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+            <a class="nav-link" href="#">Profil</a>
         </li>
-        <li><a href="#!">First Sidebar Link</a></li>
-        <li><a href="#!">Second Sidebar Link</a></li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Se déconnecter</a>
+        </li>
+        <!--        <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        Dropdown
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                </li>-->
     </ul>
-</div>
+</header>
+<nav>
+    <ul class="nav navbar-light theme-secondary ml-auto">
+      <li class="nav-item">
+        <a class="nav-link active text-dark" href="#">Active</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-dark" href="#">Link</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-dark" href="#">Link</a>
+      </li>
+    </ul>
+</nav>
 <main>
-    <div class="row">
-        <div class="col s8 offset-s2" id="content">
-            <div id="breadcrumb">
-            </div>
-            <div>
+    <div class="">
+        <div class="" id="content">
+            <div style="text-align: center">
+                {% block content %}{% endblock %}
             </div>
         </div>
     </div>
 </main>
--->
+<!--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>-->
 </body>
 </html>
