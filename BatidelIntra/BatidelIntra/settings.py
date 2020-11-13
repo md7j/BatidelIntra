@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_datatables_editor',
+    'SAV.apps.SavConfig',
     'customers.apps.CustomersConfig',
     'planning.apps.PlanningConfig',
     'authentication.apps.AuthenticationConfig',
