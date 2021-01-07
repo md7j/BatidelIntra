@@ -1,4 +1,6 @@
 from django.db import models
+from address.models import AddressField
+import django.db.models.deletion
 
 class SAV(models.Model):
     class States(models.TextChoices):
@@ -15,6 +17,7 @@ class SAV(models.Model):
         verbose_name='customer',
         related_name='SAV'
     )
+    address = AddressField(null=True, blank=True)
     state = models.CharField(max_length=3, choices=States.choices)
     nature = models.TextField()
     furnitureReception = models.DateField()

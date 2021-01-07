@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'address',
     'rest_framework',
     'rest_framework_datatables_editor',
     'SAV.apps.SavConfig',
@@ -146,3 +147,5 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework_datatables_editor.pagination.DatatablesPageNumberPagination',
     'PAGE_SIZE': 50,
 }
+
+GOOGLE_API_KEY = 'AIzaSyAz8nyKhxnuk8UkQYRs8_IKkNpIDAZhw64'
