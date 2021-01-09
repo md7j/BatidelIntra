@@ -2,4 +2,3 @@ gunicorn
 django
 djangorestframework-datatables-editor
 djangorestframework
-django-address

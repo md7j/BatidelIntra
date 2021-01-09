@@ -12,7 +12,7 @@ class SAVCustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
         fields = (
-            'id', 'firstName', 'lastName', 'address', 'city', 'phone', 'port'
+            'id', 'firstName', 'lastName', 'address', 'phone', 'port'
         )
 
 
@@ -26,6 +26,7 @@ class SAVSerializer(serializers.ModelSerializer):
             'id',
             'creationDate',
             'customer_name',
+            'address',
             'state',
             'nature',
             'furnitureReception',

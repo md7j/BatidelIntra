@@ -31,7 +31,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'address',
     'rest_framework',
     'rest_framework_datatables_editor',
     'SAV.apps.SavConfig',

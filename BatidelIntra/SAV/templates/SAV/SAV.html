@@ -15,16 +15,15 @@
             src="https://cdn.datatables.net/v/bs4-4.1.1/jq-3.3.1/moment-2.18.1/dt-1.10.22/b-1.6.5/sl-1.3.1/datatables.min.js"></script>
     <script type="text/javascript" charset="utf-8" src="{% static 'js/dataTables.editor.js' %}"></script>
     <script type="text/javascript" charset="utf-8" src="{% static 'js/editor.bootstrap4.min.js' %}"></script>
+
+    <script type="text/javascript" charset="utf-8" src="https://cdn.jsdelivr.net/npm/places.js@1.19.0"></script>
     <!--		<script type="text/javascript" charset="utf-8" src="js/table.DATABASENAME.js"></script>  -->
 
 
-    <script src="https://maps.googleapis.com/maps/api/js?libraries=places&amp;key=AIzaSyAz8nyKhxnuk8UkQYRs8_IKkNpIDAZhw64"></script>
-    <script src="/static/js/jquery.geocomplete.min.js"></script>
-    <script src="/static/address/js/address.js"></script><!--    {{ form.media }} -->
 
-<!--    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.bootstrap4.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/select/1.3.0/css/select.bootstrap4.min.css">-->
+    <!--    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
+        <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.bootstrap4.min.css">
+        <link rel="stylesheet" href="https://cdn.datatables.net/select/1.3.0/css/select.bootstrap4.min.css">-->
 
 
 {% endblock %}
@@ -34,11 +33,6 @@
         <div class="row justify-content-md-center">
             <span class="col col-md-11 swatch-500"/>
             <h1>SAV</h1>
-    <form action="" method="post">
-      {% csrf_token %}
-      {{ form }}
-      <input type="submit" value="Submit">
-    </form>
             <hr/>
             <div id="buttons" class="d-flex justify-content-left"></div>
             <table id="table_id" class="table table-striped table-bordered display" style="width:100%">
@@ -47,6 +41,8 @@
                     <th>Id</th>
                     <th>Date de création</th>
                     <th>Client</th>
+                    <th>Addresse</th>
+                    <th>Ville</th>
                     <th>Etat</th>
                     <th>Nature</th>
                     <th>Reception des fournitures</th>
@@ -70,44 +66,9 @@
         -->
 
             <script>
-                   (function ($, DataTable) {
-                if ( !DataTable.ext.editorFields ) {
-                    DataTable.ext.editorFields = {};
-                }
-                var Editor = DataTable.Editor;
-                var _fieldTypes = DataTable.ext.editorFields;
-
-                _fieldTypes.adressField = {
-                    create: function ( conf ) {
-                        var that = this;
-                        conf._enabled = true;
-                        // Create the elements to use for the input
-                        conf._input = $('<div id="' + Editor.safeId( conf.id ) + '">'+ '{{ form }}' + '</div>');
-
-                        // Use the fact that we are called in the scope of the Editor instance to call
-                        // the API method for setting the value when needed
-/*                        $('button.inputButton', conf._input).click( function () {
-                            if ( conf._enabled ) {
-                                that.set( conf.name, $(this).attr('value') );
-                            }
-                            return false;
-                        } );*/
-
-                        return conf._input;
-                    },
-
-                    get: function ( conf ) {
-                        return $('#address_components.', conf._input).attr('value');
-                    },
-
-                    set: function ( conf, val ) {
-                        $('button.selected', conf._input).removeClass( 'selected' );
-                        $('button.inputButton[value='+val+']', conf._input).addClass('selected');
-                    },
-                };
-
-                })(jQuery, jQuery.fn.dataTable);
-
+                var placesInstance;
+                var loc;
+                var currentLocation = "";
                 const language = {
                     processing: "Traitement en cours...",
                     search: "Rechercher&nbsp;:",
@@ -130,115 +91,182 @@
                         sortDescending: ": activer pour trier la colonne par ordre décroissant"
                     }
                 };
-                (function ($) {
 
-                    $(document).ready(function () {
-                        var editor = new $.fn.dataTable.Editor({
-                            ajax: "/SAV/api/SAV/editor/?format=datatables",
-                            table: '#table_id',
-                            idSrc: 'id',
-                            fields: [{
-                                label: "creationDate",
-                                name: "creationDate",
-                                type: "date"
-                            }, {
-                                label: "customer",
-                                name: "customer.id",
-                                type: "select",
-                            }, {
-                                label: "state",
-                                name: "state",
-                                type: "select",
-                            }, {
-                                label: "nature",
-                                name: "nature",
-                            }, {
-                                label: "furnitureReception",
-                                name: "furnitureReception",
-                                type: "date"
-                            }, {
-                                label: "programmation",
-                                name: "programmation",
-                                type: "date"
-                            }, {
-                                label: "conclusion",
-                                name: "conclusion",
-                            }],
-                            i18n: {
-                                create: {
-                                    button: "Nouveau",
-                                    title: "Créer nouvelle entrée",
-                                    submit: "Créer"
-                                },
-                                edit: {
-                                    button: "Modifier",
-                                    title: "Modifier entrée",
-                                    submit: "Actualiser"
-                                },
-                                remove: {
-                                    button: "Supprimer",
-                                    title: "Supprimer",
-                                    submit: "Supprimer",
-                                    confirm: {
-                                        _: "Etes-vous sûr de vouloir supprimer %d lignes?",
-                                        1: "Etes-vous sûr de vouloir supprimer 1 ligne?"
-                                    }
-                                },
-                                error: {
-                                    system: "Une erreur s’est produite, contacter l’administrateur système"
-                                },
-                                datetime: {
-                                    previous: 'Précédent',
-                                    next: 'Premier',
-                                    months: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
-                                    weekdays: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam']
-                                }
-                            }
-                        });
 
-                        var table = $('#table_id').DataTable({
-                            serverSide: true,
-                            ajax: "/SAV/api/SAV/?format=datatables",
-                            select: true,
-                            lengthChange: false,
-                            pageLength: 3,
-                            language: language,
-                            columns: [
-                                {data: "id", searchable: false},
-                                {type: "date", data: "creationDate"},//, name: "artist.name"},
-                                {data: "customer.lastName", searchable: false},
-                                {data: "state", searchable: false},
-                                {data: "nature", searchable: false},
-                                {type: "date", data: "furnitureReception", searchable: false},
-                                {type: "date", data: "programmation", searchable: false},
-                                {data: "conclusion", searchable: false},
-                            ],
-                        });
+                (function ($, DataTable) {
 
-                        new $.fn.dataTable.Buttons(table, [
-                            {extend: "create", editor: editor},
-                            {
-                                extend: "edit",
-                                editor: editor,
-                                formButtons: [
-                                    {
-                                        label: 'Annuler',
-                                        fn: function () {
-                                            this.close();
-                                        }
-                                    },
-                                    'Enregistrer'
-                                ]
+                    if (!DataTable.ext.editorFields) {
+                        DataTable.ext.editorFields = {};
+                    }
+                    var Editor = DataTable.Editor;
+                    var _fieldTypes = DataTable.ext.editorFields;
+                    _fieldTypes.addressField = {
+                        create: function (conf) {
+                            conf._enabled = true;
+                            conf._input = $(
+                                '<div id = "' + Editor.safeId(conf.id) + '" > ' +
+                                '<input type="search" id="address-input"/>' +
+                                '</div>'
+                            );
+                            return conf._input;
+                        },
+
+                        get: function (conf) {
+                            var address = {
+                                city: loc.city,
+                                county: loc.county,
+                                name: loc.name,
+                                latlng: loc.latlng
+                            };
+                            loc = "";
+                            return (address);
+                        },
+
+                        set: function (conf, val) {
+                            currentLocation = val;
+                        },
+                    };
+                })(jQuery, jQuery.fn.dataTable);
+
+                $(document).ready(function () {
+                    var editor = new $.fn.dataTable.Editor({
+                        ajax: "/SAV/api/SAV/editor/?format=datatables",
+                        table: '#table_id',
+                        idSrc: 'id',
+                        fields: [{
+                            label: "Date de création",
+                            name: "creationDate",
+                            type: "date"
+                        }, {
+                            label: "Client",
+                            name: "customer.id",
+                            type: "select",
+                        }, {
+                            label: "Etat",
+                            name: "state",
+                            type: "select",
+                        }, {
+                            label: "Nature",
+                            name: "nature",
+                        }, {
+                            label: "Adresse",
+                            name: "address",
+                            type: "addressField",
+                            def: 0,
+                        }, {
+                            label: "Réception de commande",
+                            name: "furnitureReception",
+                            type: "date"
+                        }, {
+                            label: "Date de programmation",
+                            name: "programmation",
+                            type: "date"
+                        }, {
+                            label: "Conclusion",
+                            name: "conclusion",
+                        }],
+                        i18n: {
+                            create: {
+                                button: "Nouveau",
+                                title: "Créer nouvelle entrée",
+                                submit: "Créer"
                             },
-                            {extend: "remove", editor: editor}
-                        ]);
-                        table.buttons().container().prependTo("#buttons");
-
-//                        table.buttons().container()
-//                            .appendTo($('.col-md-6:eq(0)', table.table().container()));
+                            edit: {
+                                button: "Modifier",
+                                title: "Modifier entrée",
+                                submit: "Actualiser"
+                            },
+                            remove: {
+                                button: "Supprimer",
+                                title: "Supprimer",
+                                submit: "Supprimer",
+                                confirm: {
+                                    _: "Etes-vous sûr de vouloir supprimer %d lignes?",
+                                    1: "Etes-vous sûr de vouloir supprimer 1 ligne?"
+                                }
+                            },
+                            error: {
+                                system: "Une erreur s’est produite, contacter l’administrateur système"
+                            },
+                            datetime: {
+                                previous: 'Précédent',
+                                next: 'Premier',
+                                months: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+                                weekdays: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam']
+                            }
+                        }
+                    });
+                    editor.one("opened", function () {
+                        placesInstance = places({
+                            appId: 'plMKXHAGULPH',
+                            apiKey: 'b1a3d617d8f3539c1394fb62c8a582b6',
+                            container: document.querySelector('#address-input'),
+                        });
+                        placesInstance.on('change', function (e) {
+                            console.log(e.suggestion);
+                            loc = e.suggestion;
+                        });
+                    })
+                    editor.on("opened", function () {
+                        if (currentLocation !== 0) {
+                            document.querySelector('#address-input').setAttribute("placeholder", currentLocation);
+                            document.querySelector('#address-input').value = "";
+                        }
+                    })
+                    var table = $('#table_id').DataTable({
+                        serverSide: true,
+                        ajax: {
+                            url: "/SAV/api/SAV/?format=datatables",
+                            dataSrc: function (json) {
+                                for (var i = 0, ien = json.data.length; i < ien; i++) {
+                                    if (json.data[i].address.city)
+                                        json.data[i].city = json.data[i].address.city;
+                                    else
+                                        json.data[i].city = "Indéfinie";
+                                    json.data[i].address = json.data[i].address.name;
+                                }
+                                console.log(json.data);
+                                return json.data;
+                            }
+                        },
+                        select: true,
+                        lengthChange: false,
+                        pageLength: 3,
+                        language: language,
+                        columns: [
+                            {data: "id", visible: false},
+                            {type: "date", data: "creationDate"},//, name: "artist.name"},
+                            {data: "customer.lastName", searchable: false},
+                            {data: "address", searchable: true},
+                            {data: "city", name: "address.city", searchable: true},
+                            {data: "state", searchable: false},
+                            {data: "nature", searchable: false},
+                            {type: "date", data: "furnitureReception", searchable: false},
+                            {type: "date", data: "programmation", searchable: false},
+                            {data: "conclusion", searchable: false},
+                        ],
                     });
 
-                }(jQuery));
+                    new $.fn.dataTable.Buttons(table, [
+                        {extend: "create", editor: editor},
+                        {
+                            extend: "edit",
+                            editor: editor,
+                            formButtons: [
+                                {
+                                    label: 'Annuler',
+                                    fn: function () {
+                                        this.close();
+                                    }
+                                },
+                                'Enregistrer'
+                            ]
+                        },
+                        {extend: "remove", editor: editor}
+                    ]);
+                    table.buttons().container().prependTo("#buttons");
+                });
+
 
                 function getCookie(name) {
                     var cookieValue = null;

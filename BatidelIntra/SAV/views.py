@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from .models import SAV
-from .forms import SAVForm
 from customers.models import Customer
 from django.contrib.auth.decorators import login_required
 from rest_framework_datatables_editor.viewsets import (
@@ -13,12 +12,11 @@ from rest_framework import viewsets
 from .serializers import SAVSerializer
 from customers.serializers import CustomerSerializer
 from rest_framework.response import Response
-from address.models import Address
 
 
 @login_required
 def index(request):
-    context = {'form': SAVForm()}
+    context = {}
     return render(request, 'SAV/SAV.html', context)
 
 
