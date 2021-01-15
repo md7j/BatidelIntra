@@ -1,18 +1,20 @@
 {% extends "base.html" %}
 
 {% block includes %}
-     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-   crossorigin=""/>
-     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
-   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
-   crossorigin=""></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+          crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+            integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+            crossorigin=""></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
 {% endblock %}
 
 {% block title %}Planning{% endblock %}
 
 {% block content %}
-   <div class="container-flex">
+    <div class="container-flex">
         <div class="row justify-content-md-center">
             <span class="col col-md-11 swatch-500 p-3"/>
             <h1>Planning</h1>
@@ -24,12 +26,29 @@
                         var mymap = L.map('mapid').setView([49.2500152, 3.9782283], 12);
 
                         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
                         }).addTo(mymap);
 
-                        L.marker([49.2500152, 3.9782283]).addTo(mymap);
+                        var marker = L.marker([49.2500152, 3.9782283]).bindPopup("<b>Hello world!</b><br><input type='text'></input><br/>I am a popup.").addTo(mymap);
+                        marker.openPopup();
                     </script>
                 </div>
             </div>
         </div>
-    </div>{% endblock %}
+    </div>
+
+    <script>
+        function init_map() {
+            $.ajax({
+                url: 'coords/',
+                data: {
+                    'username': "ABU"
+                },
+                dataType: 'json',
+                success: function (data) {
+                        console.log(data);
+                }
+            });
+        }
+    </script>
+{% endblock %}
